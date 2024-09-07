@@ -1,19 +1,29 @@
 package com.example.kotlincoroutines
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.TextView
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
 
     private val TAG: String = "MainActivity"
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val tv = findViewById<TextView>(R.id.tv)
+
+
+//        Global Scope
 
         /*
                 GlobalScope.launch {
@@ -29,17 +39,29 @@ class MainActivity : AppCompatActivity() {
         */
 
 
+        //        Suspend Functions
 
-        GlobalScope.launch {
-            val networkCallAnswer1 = doNetworkCall()
-            val networkCallAnswer2 = doNetworkCall2()
-            Log.d(TAG, networkCallAnswer1)
-            Log.d(TAG, networkCallAnswer2)
-            /*
-            *  The result will print after 6 second because the first delay call influence second delay call because both
-            *  executing in same coroutines.
-            *
-            * */
+        /*        GlobalScope.launch {
+                    val networkCallAnswer1 = doNetworkCall()
+                    val networkCallAnswer2 = doNetworkCall2()
+                    Log.d(TAG, networkCallAnswer1)
+                    Log.d(TAG, networkCallAnswer2)
+                }*/
+
+        /**
+         *  The result will print after 6 second because the first delay call influence second delay call because both
+         *  executing in same coroutines.
+         * */
+
+
+        //  Coroutine Contexts - Kotlin Coroutines
+        GlobalScope.launch(Dispatchers.IO) {
+            Log.d(TAG, "Starting coroutines in thread ${Thread.currentThread().name}")
+            val answer = doNetworkCall()
+            withContext(Dispatchers.Main) {
+                Log.d(TAG, "Setting text in thread thread ${Thread.currentThread().name}")
+                tv.text = answer
+            }
         }
     }
 
