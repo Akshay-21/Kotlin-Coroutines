@@ -9,6 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
@@ -55,14 +56,46 @@ class MainActivity : AppCompatActivity() {
 
 
         //  Coroutine Contexts - Kotlin Coroutines
-        GlobalScope.launch(Dispatchers.IO) {
+        /*GlobalScope.launch(Dispatchers.IO) {
             Log.d(TAG, "Starting coroutines in thread ${Thread.currentThread().name}")
             val answer = doNetworkCall()
             withContext(Dispatchers.Main) {
                 Log.d(TAG, "Setting text in thread thread ${Thread.currentThread().name}")
                 tv.text = answer
             }
+        }*/
+
+//  runBlocking - Kotlin Coroutines
+
+        Log.d(TAG, "Before run blocking")
+        runBlocking {
+
+            launch {
+                delay(3000L)
+                Log.d(TAG, "Finish IO Coroutines 1")
+            }
+
+            launch {
+                delay(3000L)
+                Log.d(TAG, "Finish IO Coroutines 2")
+            }
+
+            Log.d(TAG, "Start run blocking")
+            delay(5000L)
+            Log.d(TAG, "End run blocking")
         }
+
+        /* Log.d(TAG, "Start run blocking")
+         Thread.sleep(5000L)
+         Log.d(TAG, "End run blocking")*/
+
+        /**
+         * Here delay() and Thread.sleep() block the main/ui thread (will work for same).
+         */
+
+
+        Log.d(TAG, "After run blocking")
+
     }
 
     suspend fun doNetworkCall(): String {
