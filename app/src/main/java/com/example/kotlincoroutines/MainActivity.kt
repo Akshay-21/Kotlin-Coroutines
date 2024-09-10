@@ -8,9 +8,11 @@ import android.widget.TextView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeout
 
 class MainActivity : AppCompatActivity() {
 
@@ -67,34 +69,66 @@ class MainActivity : AppCompatActivity() {
 
 //  runBlocking - Kotlin Coroutines
 
-        Log.d(TAG, "Before run blocking")
-        runBlocking {
-
-            launch {
-                delay(3000L)
-                Log.d(TAG, "Finish IO Coroutines 1")
-            }
-
-            launch {
-                delay(3000L)
-                Log.d(TAG, "Finish IO Coroutines 2")
-            }
-
-            Log.d(TAG, "Start run blocking")
-            delay(5000L)
-            Log.d(TAG, "End run blocking")
-        }
+        /*        Log.d(TAG, "Before run blocking")
+                runBlocking {
+                    launch {
+                        delay(3000L)
+                        Log.d(TAG, "Finish IO Coroutines 1")
+                    }
+                    launch {
+                        delay(3000L)
+                        Log.d(TAG, "Finish IO Coroutines 2")
+                    }
+                    Log.d(TAG, "Start run blocking")
+                    delay(5000L)
+                    Log.d(TAG, "End run blocking")
+                }*/
 
         /* Log.d(TAG, "Start run blocking")
          Thread.sleep(5000L)
          Log.d(TAG, "End run blocking")*/
+
+//        Log.d(TAG, "After run blocking")
 
         /**
          * Here delay() and Thread.sleep() block the main/ui thread (will work for same).
          */
 
 
-        Log.d(TAG, "After run blocking")
+//        Jobs, Waiting, Cancelation - Kotlin Coroutines
+
+        val job = GlobalScope.launch(Dispatchers.Default) {
+            /* repeat(5) {
+                 Log.d(TAG, "Coroutines is still working...")
+                 delay(1000L)
+             }*/
+
+
+//           Coroutines Job Cancellation
+            Log.d(TAG, "Starting long running calculation...")
+            withTimeout(3000L){
+                for (i in 30..50) {
+                    if (isActive){
+                        Log.d(TAG, "Result for i = $i : ${fib(i)}")
+                    }
+                }
+            }
+
+            Log.d(TAG, "Ending long running calculation...")
+        }
+
+/*        runBlocking {
+//            job.join()  // job coroutines join to execute.
+
+            *//*delay(2000L)
+            job.cancel()
+            Log.d(TAG, "Main Thread is continuing...")*//*
+
+//           Coroutines Job Cancellation
+            delay(2000L)
+            job.cancel()
+            Log.d(TAG, "Canceled Job!")
+        }*/
 
     }
 
@@ -106,5 +140,11 @@ class MainActivity : AppCompatActivity() {
     suspend fun doNetworkCall2(): String {
         delay(3000L)
         return "THis is the answer2"
+    }
+
+    private fun fib(n: Int): Long {
+        return if (n == 0) 0
+        else if (n == 1) 1
+        else fib(n - 1) + fib(n - 2)
     }
 }
