@@ -45,4 +45,17 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1")
 
+/*    def arch_version = '2.6.1' // Replace with the latest stable version if different
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$arch_version"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$arch_version"*/
+
+    // Kotlin extensions for ViewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.5"
+
+    // Kotlin extensions for Lifecycle
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.8.5"
+
+    // Optional: For LiveData and Lifecycle-aware components
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.8.5"
+
 }

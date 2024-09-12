@@ -1,18 +1,23 @@
 package com.example.kotlincoroutines
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatButton
+import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeout
+import kotlin.system.measureTimeMillis
 
 class MainActivity : AppCompatActivity() {
 
@@ -97,12 +102,13 @@ class MainActivity : AppCompatActivity() {
 
 //        Jobs, Waiting, Cancelation - Kotlin Coroutines
 
-        val job = GlobalScope.launch(Dispatchers.Default) {
-            /* repeat(5) {
+        /*
+
+                val job = GlobalScope.launch(Dispatchers.Default) {
+                    *//* repeat(5) {
                  Log.d(TAG, "Coroutines is still working...")
                  delay(1000L)
-             }*/
-
+             }*//*
 
 //           Coroutines Job Cancellation
             Log.d(TAG, "Starting long running calculation...")
@@ -117,10 +123,12 @@ class MainActivity : AppCompatActivity() {
             Log.d(TAG, "Ending long running calculation...")
         }
 
-/*        runBlocking {
-//            job.join()  // job coroutines join to execute.
+        */
 
-            *//*delay(2000L)
+        /*        runBlocking {
+        //            job.join()  // job coroutines join to execute.
+
+                    *//*delay(2000L)
             job.cancel()
             Log.d(TAG, "Main Thread is continuing...")*//*
 
@@ -130,6 +138,52 @@ class MainActivity : AppCompatActivity() {
             Log.d(TAG, "Canceled Job!")
         }*/
 
+//        Async and Await - Kotlin Coroutines
+        /*GlobalScope.launch(Dispatchers.IO) {   // Current coroutines
+
+            val time = measureTimeMillis {
+
+                *//*val answer1: String? = null
+                val answer2: String? = null
+                val job1 = launch { doNetworkCall() }
+                val job2 = launch { doNetworkCall2() }
+                job1.join()
+                job2.join()
+                *//*
+                // This above method reduced request time but this is not good approach..
+
+                val answer1 = async { doNetworkCall() }
+                val answer2 = async { doNetworkCall2() }
+                Log.d(TAG, "Answer 1 ${answer1.await()}")
+                Log.d(TAG, "Answer 2 ${answer2.await()}")
+
+                *//**
+                 * await blocks current coroutines until the answer1 is available.
+                 * and the same for answer2.
+                 *//*
+
+            }
+            Log.d(TAG, "Request took $time ms")
+        }*/
+
+//        lifecycleScope and viewModelScope - Kotlin Coroutines
+        findViewById<AppCompatButton>(R.id.btnStartActivity).setOnClickListener {
+//            GlobalScope.launch {      // This Global scope launch coroutines is not good approach to launch coroutines.
+            lifecycleScope.launch {
+                while(true){
+                    delay(1000L)
+                    Log.d(TAG, "Still running...")
+                }
+            }
+
+            GlobalScope.launch {
+                delay(5000L)
+                Intent(this@MainActivity, MainActivity2::class.java).also {
+                    startActivity(it)
+                    finish()
+                }
+            }
+        }
     }
 
     suspend fun doNetworkCall(): String {
