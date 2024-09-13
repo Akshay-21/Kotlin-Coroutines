@@ -15,5 +15,12 @@ class MainActivity2 : AppCompatActivity() {
                 startActivity(it)
             }
         }
+
+
+        findViewById<AppCompatButton>(R.id.btnStartRetrofitActivity).setOnClickListener {
+            Intent(this@MainActivity2, RetrofitActivity::class.java).also {
+                startActivity(it)
+            }
+        }
     }
 }
