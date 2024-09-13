@@ -2,22 +2,15 @@ package com.example.kotlincoroutines
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
-import kotlinx.coroutines.withTimeout
-import kotlin.system.measureTimeMillis
 
 class MainActivity : AppCompatActivity() {
 
@@ -157,10 +150,11 @@ class MainActivity : AppCompatActivity() {
                 Log.d(TAG, "Answer 1 ${answer1.await()}")
                 Log.d(TAG, "Answer 2 ${answer2.await()}")
 
-                *//**
-                 * await blocks current coroutines until the answer1 is available.
-                 * and the same for answer2.
-                 *//*
+                */
+        /**
+         * await blocks current coroutines until the answer1 is available.
+         * and the same for answer2.
+         *//*
 
             }
             Log.d(TAG, "Request took $time ms")
@@ -169,8 +163,8 @@ class MainActivity : AppCompatActivity() {
 //        lifecycleScope and viewModelScope - Kotlin Coroutines
         findViewById<AppCompatButton>(R.id.btnStartActivity).setOnClickListener {
 //            GlobalScope.launch {      // This Global scope launch coroutines is not good approach to launch coroutines.
-            lifecycleScope.launch {
-                while(true){
+            lifecycleScope.launch {//This "lifecycleScope launch" work till the activity lifecycle, after destroy the activity all lifecycleScope coroutines will destroy or cancelled.
+                while (true) {
                     delay(1000L)
                     Log.d(TAG, "Still running...")
                 }
