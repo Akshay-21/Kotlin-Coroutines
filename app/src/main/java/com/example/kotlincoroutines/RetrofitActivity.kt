@@ -12,6 +12,7 @@ import retrofit2.awaitResponse
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 
+//Coroutines with Retrofit - Kotlin Coroutines
 
 const val BASE_URL = "https://jsonplaceholder.typicode.com/"
 
@@ -22,7 +23,6 @@ class RetrofitActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_retrofit)
-
 
         val api =
             Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create())

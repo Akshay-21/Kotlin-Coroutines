@@ -171,7 +171,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             GlobalScope.launch {
-                delay(5000L)
+                delay(2000L)
                 Intent(this@MainActivity, MainActivity2::class.java).also {
                     startActivity(it)
                     finish()

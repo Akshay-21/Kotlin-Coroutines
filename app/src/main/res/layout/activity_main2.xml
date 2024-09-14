@@ -34,8 +34,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Retrofit Activity"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnStartExceptionHandlingActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Exception Handling Activity"
+        app:layout_constraintBottom_toTopOf="@id/btnStartRetrofitActivity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -22,5 +22,11 @@ class MainActivity2 : AppCompatActivity() {
                 startActivity(it)
             }
         }
+
+        findViewById<AppCompatButton>(R.id.btnStartExceptionHandlingActivity).setOnClickListener {
+            Intent(this@MainActivity2, RetrofitActivity::class.java).also {
+                startActivity(it)
+            }
+        }
     }
 }
